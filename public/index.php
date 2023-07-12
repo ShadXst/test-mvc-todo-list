@@ -15,5 +15,4 @@ $doctrineConfig = ORMSetup::createAttributeMetadataConfiguration(
 $connection = DriverManager::getConnection($appConfig['database']);
 $entityManager = new EntityManager($connection, $doctrineConfig);
 
-// Router
 require_once '../routes/router.php';

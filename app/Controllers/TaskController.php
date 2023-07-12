@@ -40,7 +40,6 @@ class TaskController
         $currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
         $totalPages = ceil($totalTasksCount / $tasksPerPage);
         $offset = ($currentPage - 1) * $tasksPerPage;
-        // Sorting
         $orderableFields = ['username', 'email', 'status'];
         $orderBy = $_GET['order_by'] ?? 'id';
         $order = $_GET['order'] ? strtoupper($_GET['order']) : 'ASC';
