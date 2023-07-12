@@ -38,15 +38,22 @@
         <?php endif; ?>
         <div class="container">
             <form class="row align-items-start" method="GET" action="/">
-                <select name="order_by" class="form-select col mx-3" aria-label="Default select example">
-                    <option value selected>Order by</option>
-                    <option value="username">Username</option>
-                    <option value="email">Email</option>
-                    <option value="is_complete">Status</option>
+                <select name="order_by" class="form-select col mx-3">
+                    <option value <?php echo ($orderBy === 'id') ? 'selected' : ''; ?>
+                    >Order by</option>
+                    <option value="username"
+                            <?php echo ($orderBy === 'username') ? 'selected' : ''; ?>
+                    >Username</option>
+                    <option value="email"
+                            <?php echo ($orderBy === 'email') ? 'selected' : ''; ?>
+                    >Email</option>
+                    <option value="isComplete"
+                            <?php echo ($orderBy === 'isComplete') ? 'selected' : ''; ?>
+                    >Status</option>
                 </select>
-                <select name="order" class="form-select col" aria-label="Default select example">
-                    <option value="ASC" selected>Ascending</option>
-                    <option value="DESC">Descending</option>
+                <select name="order" class="form-select col">
+                    <option value="ASC" <?php echo (!isset($order) || $order === 'ASC') ? 'selected' : ''; ?>>Ascending</option>
+                    <option value="DESC" <?php echo ($order === 'DESC') ? 'selected' : ''; ?>>Descending</option>
                 </select>
                 <?php if (isset($_GET['page'])): ?>
                     <input type="hidden" name="page" value="<?php echo $_GET['page']; ?>">
@@ -79,7 +86,9 @@
                             </div>
                         <?php endif; ?>
                         <?php if ($data['auth']['isLoggedIn']): ?>
-                        <a class="btn btn-secondary mt-2" href="/tasks/update?taskId=<?php echo $task->getId() ?>">
+                        <a class="btn btn-secondary mt-2"
+                           href="/tasks/update?taskId=<?php echo $task->getId() ?>"
+                        >
                             Edit
                         </a>
                         <?php endif; ?>
