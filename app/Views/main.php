@@ -30,12 +30,32 @@
         </ul>
     </header>
     <div>
-        <h1 class="text-center">TO-DO Task List</h1>
+        <h1 class="text-center mb-5">TO-DO Task List</h1>
         <?php if ($successMessage): ?>
             <div class="alert alert-success" role="alert">
                 <?php echo $successMessage ?>
             </div>
         <?php endif; ?>
+        <div class="container">
+            <form class="row align-items-start" method="GET" action="/">
+                <select name="order_by" class="form-select col mx-3" aria-label="Default select example">
+                    <option value selected>Order by</option>
+                    <option value="username">Username</option>
+                    <option value="email">Email</option>
+                    <option value="is_complete">Status</option>
+                </select>
+                <select name="order" class="form-select col" aria-label="Default select example">
+                    <option value="ASC" selected>Ascending</option>
+                    <option value="DESC">Descending</option>
+                </select>
+                <?php if (isset($_GET['page'])): ?>
+                    <input type="hidden" name="page" value="<?php echo $_GET['page']; ?>">
+                <?php endif ?>
+                <button type="submit" class="col btn btn-warning mx-3">
+                    Reorder
+                </button>
+            </form>
+        </div>
         <div>
             <?php foreach ($data['tasks'] as $task): ?>
                 <div class="card my-2">
@@ -77,7 +97,7 @@
                     <li class="page-item">
                         <a class="page-link"
                            aria-label="Previous"
-                           href="?page=<?php echo ($data['meta']['currentPage'] - 1); ?>"
+                           href="?page=<?php echo ($data['meta']['currentPage'] - 1); ?>&order_by=<?php echo $data['meta']['orderBy']; ?>&order=<?php echo $data['meta']['order']; ?>"
                         >
                             <span aria-hidden="true">&laquo;</span>
                         </a>
@@ -86,7 +106,7 @@
                 <?php for ($i = 1; $i <= $data['meta']['totalPages']; $i++): ?>
                     <li class="page-item">
                         <a class="page-link <?php echo $i == ($_GET['page'] ?? 1) ? 'active' : '' ?>"
-                           href="?page=<?php echo $i; ?>"
+                           href="?page=<?php echo $i; ?>&order_by=<?php echo $data['meta']['orderBy']; ?>&order=<?php echo $data['meta']['order']; ?>"
                         >
                             <?php echo $i; ?>
                         </a>
@@ -96,7 +116,7 @@
                     <li class="page-item">
                         <a class="page-link"
                            aria-label="Next"
-                           href="?page=<?php echo ($data['meta']['currentPage'] + 1); ?>"
+                           href="?page=<?php echo ($data['meta']['currentPage'] + 1); ?>&order_by=<?php echo $data['meta']['orderBy']; ?>&order=<?php echo $data['meta']['order']; ?>"
                         >
                             <span aria-hidden="true">&raquo;</span>
                         </a>

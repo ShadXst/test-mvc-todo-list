@@ -40,8 +40,14 @@ class TaskController
         $currentPage = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
         $totalPages = ceil($totalTasksCount / $tasksPerPage);
         $offset = ($currentPage - 1) * $tasksPerPage;
+        // Sorting
+        $orderableFields = ['username', 'email', 'status'];
+        $orderBy = $_GET['order_by'] ?? 'id';
+        $order = $_GET['order'] ? strtoupper($_GET['order']) : 'ASC';
+        $orderBy = in_array($orderBy, $orderableFields, true) ? $orderBy : 'id';
         // Get the tasks for the current page
         $query = $taskRepository->createQueryBuilder('t')
+            ->orderBy('t.' . $orderBy, $order)
             ->setFirstResult($offset)
             ->setMaxResults($tasksPerPage)
             ->getQuery();
@@ -54,6 +60,8 @@ class TaskController
             ],
             'tasks' => $tasks,
             'meta' => [
+                'order' => $order,
+                'orderBy' => $orderBy,
                 'currentPage' => $currentPage,
                 'totalPages' => $totalPages,
             ],
