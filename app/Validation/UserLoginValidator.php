@@ -20,8 +20,7 @@ class UserLoginValidator extends BaseValidator
         }
         if (!$this->checkRequiredString($data['password'])) {
             $this->setError('password', ValidationError::REQUIRED);
-        }
-        if (
+        } else if (
             $data['login'] !== $config['admin']['login'] ||
             $data['password'] !== $config['admin']['password']
         ) {
